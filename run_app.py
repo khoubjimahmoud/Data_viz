@@ -4,9 +4,13 @@ import subprocess, time, sys
 streamlit_proc = subprocess.Popen(["streamlit", "run", "app.py"])
 time.sleep(5)  # give Streamlit time to start
 
-# 2) Open a LocalTunnel on port 8501
-tunnel_proc = subprocess.Popen(["lt", "--port", "8501"])
-print("LocalTunnel is now forwarding → http://localhost:8501")
+# 2) Open LocalTunnel **only** if it's installed
+import shutil
+if shutil.which("lt"):
+    tunnel_proc = subprocess.Popen(["lt", "--port", "8501"])
+    print("LocalTunnel is now forwarding → http://localhost:8501")
+else:
+    print("⚠️  `lt` not found; skipping tunnel (this is expected on Streamlit Cloud)")
 
 # 3) Keep alive until you hit Ctrl+C
 try:
