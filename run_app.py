@@ -15,7 +15,11 @@ time.sleep(5)
 
 # 2) Only start LocalTunnel if the `lt` binary exists
 if shutil.which("lt"):
-    subprocess.Popen(["lt", "--port", "8501"])
+    tunnel_proc = subprocess.Popen(
+        ["lt", "--port", "8501"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
     print("✅ LocalTunnel forwarding → http://localhost:8501")
 else:
     print("⚠️  `lt` not found; skipping LocalTunnel (expected on Cloud)")
